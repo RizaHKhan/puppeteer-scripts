@@ -34,7 +34,6 @@ const crawler = async (args) => {
   };
 
   const browser = await puppeteer.launch({
-    headless: false,
     args: ["--no-sandbox"],
     ignoreDefaultArgs: ["--disable-extensions"],
   });

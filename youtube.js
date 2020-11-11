@@ -1,25 +1,24 @@
-require("dotenv").config();
 const puppeteer = require("puppeteer");
 
-async function startBrowser(...args) {
-
+const evalFunc = async function (args) {
   // Setup args
-  const entries = Object.values(...args)
-  const url = entires[0]
-  const email = entires[1]
-  const password = entires[2]
-
-  const entries = Object.values(...args);
+  const entries = Object.values(args);
   const url = entries[0];
   const email = entries[1];
   const password = entries[2];
 
-  const browser = await puppeteer.launch();
+  const browser = await puppeteer.launch({
+    args: ["--no-sandbox"],
+    ignoreDefaultArgs: ["--disable-extensions"],
+  });
+
+  const context = browser.defaultBrowserContext();
+  context.overridePermissions("https://www.youtube.com", ["notifications"]);
+
   const page = await browser.newPage();
   await page.goto(url);
-  const signInButton = await page.waitForSelector(
-    'paper-button[aria-label="Sign in"]'
-  );
+  const signInButton = await page.waitForSelector('paper-button[aria-label="Sign in"]');
+
   await signInButton.click();
   await page.waitForNavigation();
 
@@ -41,18 +40,28 @@ async function startBrowser(...args) {
   await page.waitForNavigation();
 
   await page.goto("https://www.youtube.com/feed/channels");
+  await page.waitForNavigation();
 
-  // Start the process to remove all the channels (this could take a while)
-  var subscribeButton = await page.$$(".ytd-subscribe-button-renderer");
+  const subButtons = await page.$$(".ytd-subscribe-button-renderer");
 
-  for (let x = 0; x < subscribeButton.length; x++) {
+  async for (let x = 0; x < subButtons.length; x++) {
+    await page.evaluate(() => {
+      document.querySelector('.ytd-subscribe-button-renderer').click();
+    }
+
+    await page.evaluate(() => {
+      document.querySelector('paper-button[aria-label="Unsubscribe"]').click()
+    })
+
     await page.goto("https://www.youtube.com/feed/channels");
-    if (page.$(".ytd-subscribe-button-renderer")) break;
-    await page.click(".ytd-subscribe-button-renderer");
-    await page.click("paper-button[aria-label=Unsubscribe]");
+    await page.waitForNavigation();
   }
 
   await browser.close();
-}
+};
 
-module.exports = startBrowser;
+crawl({
+  url: "https://www.youtube.com",
+  email: "khanriza@gmail.com",
+  password: "87Z8VS8DsXyy",
+});
