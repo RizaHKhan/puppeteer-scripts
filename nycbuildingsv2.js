@@ -225,6 +225,56 @@ Promise.all([one, two, three, four, five, six, seven]).then((values) => {
     }
 
     if (x === 14) {
+      values.forEach((item) => {
+        let obj = {};
+        if (item[x].trim().includes("Device Number")) {
+          obj[item[x].trim().split("\t")[0]] = item[x].trim().split("\t")[1];
+        } else if (item[x].trim().includes("Infraction Codes")) {
+          obj[item[x].trim().split("\t")[0]] = item[x]
+            .trim()
+            .split("\t")[2]
+            .split("\n")[1];
+
+          objectsArray.push(obj);
+
+          let obj1 = {};
+          obj1[item[x].trim().split("\t")[1]] = item[x].trim().split("\t")[3];
+          objectsArray.push(obj1);
+
+          let obj2 = {};
+          obj2[item[x].trim().split("\t")[2].split("\n")[0]] = item[x]
+            .trim()
+            .split("\t")[4];
+          objectsArray.push(obj2);
+        }
+      });
+    }
+
+    if (x === 15) {
+      values.forEach((item) => {
+        if (item[x].trim().includes("Infraction Codes")) {
+          let obj = {};
+          obj[item[x].trim().split("\t")[0]] = item[x]
+            .trim()
+            .split("\t")[2]
+            .split("\n")[1];
+
+          objectsArray.push(obj);
+
+          let obj1 = {};
+          obj1[item[x].trim().split("\t")[1]] = item[x].trim().split("\t")[3];
+          objectsArray.push(obj1);
+
+          let obj2 = {};
+          obj2[item[x].trim().split("\t")[2].split("\n")[0]] = item[x]
+            .trim()
+            .split("\t")[4];
+          objectsArray.push(obj2);
+        }
+      });
+    }
+
+    if (x === 16) {
       console.log(" ");
       console.log(x, ":", one[x].trim());
       console.log(x, ":", two[x].trim());
@@ -236,15 +286,20 @@ Promise.all([one, two, three, four, five, six, seven]).then((values) => {
       console.log(" ");
 
       values.forEach((item) => {
-        let obj = {};
-        if (item[x].trim().includes("Device Number")) {
-          obj[item[x].trim().split("\t")[0]] = item[x].trim().split("\t")[1];
-        } else if (item[x].trim().includes("Infraction Codes")) {
-          console.log(item[x].trim().split("\t"));
+        if (item[x].trim().includes('Infraction Code')) {
+          console.log(true)
+        } else {
+          let obj = {}
+          let obj1 = {}
+          let obj2 = {}
+          obj["Infraction Code"] = item[x].trim().split("\t")[0]
+          obj1["Section of Law"] = item[x].trim().split("\t")[1]
+          obj2["Standard Description"] = item[x].trim().split("\t")[2]
         }
-      });
+        });
+      };
     }
   }
 
-  console.log(objectsArray);
+  // console.log(JSON.stringify(objectsArray));
 });
