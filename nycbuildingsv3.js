@@ -52,16 +52,15 @@ const crawler = async (url) => {
 };
 
 const one = crawler(
-  // "http://a810-bisweb.nyc.gov/bisweb/ECBQueryByNumberServlet?requestid=20&ecbin=38236472X"
+  "http://a810-bisweb.nyc.gov/bisweb/ECBQueryByNumberServlet?requestid=20&ecbin=38236472X"
   // "http://a810-bisweb.nyc.gov/bisweb/ECBQueryByNumberServlet?requestid=20&ecbin=39016173H"
-  "http://a810-bisweb.nyc.gov/bisweb/ECBQueryByNumberServlet?requestid=20&ecbin=35150318L"
+  // "http://a810-bisweb.nyc.gov/bisweb/ECBQueryByNumberServlet?requestid=20&ecbin=35150318L"
 );
 
 let objectsArray = [];
 
 Promise.all([one]).then((values) => {
   const one = values[0];
-
   values[0].forEach((item) => {
     item.split("\t").map((item, index, array) =>
       item
@@ -70,7 +69,7 @@ Promise.all([one]).then((values) => {
         .forEach((item) => {
           let isTrimmed = item.trim();
           let isSplit = isTrimmed.split("/t");
-          let splitByColon = isSplit.toString().split(":");
+          let isSplitByColon = isSplit.toString().split(":");
           let obj = {};
           // Items that split into pairs
           if (
@@ -81,8 +80,8 @@ Promise.all([one]).then((values) => {
             isTrimmed.includes("DOB Violation Number") ||
             isTrimmed.includes("Issued as Aggravated Level")
           ) {
-            obj[splitByColon[0]] = splitByColon[1]
-              ? splitByColon[1].trim()
+            obj[isSplitByColon[0]] = isSplitByColon[1]
+              ? isSplitByColon[1].trim()
               : "Not available";
             objectsArray.push(obj);
             // Stuff to ignore
@@ -123,8 +122,15 @@ Promise.all([one]).then((values) => {
           ) {
             obj[array[index]] = array[index + 1];
             objectsArray.push(obj);
+          } else if (
+            isTrimmed.includes("Infraction Code") ||
+            isTrimmed.includes("")
+          ) {
+            console.log(isTrimmed.split("\n"));
+            obj[array[index]] = array[index + 4];
+            objectsArray.push(obj);
           } else {
-            console.log(index);
+            console.log(isTrimmed);
           }
         })
     );
