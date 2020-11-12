@@ -275,31 +275,358 @@ Promise.all([one, two, three, four, five, six, seven]).then((values) => {
     }
 
     if (x === 16) {
-      console.log(" ");
-      console.log(x, ":", one[x].trim());
-      console.log(x, ":", two[x].trim());
-      console.log(x, ":", three[x].trim());
-      console.log(x, ":", four[x].trim());
-      console.log(x, ":", five[x].trim());
-      console.log(x, ":", six[x].trim());
-      console.log(x, ":", seven[x].trim());
-      console.log(" ");
-
       values.forEach((item) => {
-        if (item[x].trim().includes('Infraction Code')) {
-          console.log(true)
+        if (item[x].trim().includes("Infraction Code")) {
+          // console.log(true);
         } else {
-          let obj = {}
-          let obj1 = {}
-          let obj2 = {}
-          obj["Infraction Code"] = item[x].trim().split("\t")[0]
-          obj1["Section of Law"] = item[x].trim().split("\t")[1]
-          obj2["Standard Description"] = item[x].trim().split("\t")[2]
+          let obj = {};
+          let obj1 = {};
+          let obj2 = {};
+          obj["Infraction Code"] = item[x].trim().split("\t")[0];
+          obj1["Section of Law"] = item[x].trim().split("\t")[1];
+          obj2["Standard Description"] = item[x].trim().split("\t")[2];
         }
-        });
-      };
+      });
     }
-  }
 
-  // console.log(JSON.stringify(objectsArray));
+    if (x === 17) {
+      values.forEach((item) => {
+        if (item[x].trim().includes("Infraction Code")) {
+          // console.log(true);
+        } else {
+          let obj = {};
+          let obj1 = {};
+          let obj2 = {};
+          obj["Infraction Code"] = item[x].trim().split("\t")[0];
+          obj1["Section of Law"] = item[x].trim().split("\t")[1];
+          obj2["Standard Description"] = item[x].trim().split("\t")[2];
+          objectsArray.push(obj);
+          objectsArray.push(obj1);
+          objectsArray.push(obj2);
+        }
+      });
+    }
+
+    if (x === 18) {
+      values.forEach((item) => {
+        if (
+          item[x].trim().includes("Specific Violation Condition(s) and Remedy")
+        ) {
+          // console.log(true);
+        } else {
+          let obj = {};
+          obj["Specific Violation Conditions(s) and Remedy"] = item[x]
+            .trim()
+            .split("\t")[0];
+          objectsArray.push(obj);
+        }
+      });
+    }
+
+    if (x === 19) {
+      values.forEach((item) => {
+        if (item[x].trim().includes("Issuing Inspector ID")) {
+          let obj = {};
+          obj[item[x].trim().split("\t")[1]] = item[x].trim().split("\t")[2];
+          objectsArray.push(obj);
+        } else {
+          let obj = {};
+          obj["Specific Violation Conditions(s) and Remedy"] = item[x]
+            .trim()
+            .split("\t")[0];
+          objectsArray.push(obj);
+        }
+      });
+    }
+
+    if (x === 20) {
+      values.forEach((item) => {
+        if (item[x].trim().includes("Issued as Aggravated Level")) {
+          let obj = {};
+          obj[item[x].trim().split("\t")[0].split(":")[0]] = item[x]
+            .trim()
+            .split("\t")[0]
+            .split(":")[1]
+            .trim();
+          objectsArray.push(obj);
+        } else {
+          let obj = {};
+          let obj1 = {};
+
+          obj[item[x].trim().split("\t")[0]] = item[x].trim().split("\t")[1];
+          obj1[item[x].trim().split("\t")[2].split(":")[0].trim()] = item[x]
+            .trim()
+            .split("\t")[2]
+            .split(":")[1]
+            .trim();
+
+          objectsArray.push(obj);
+          objectsArray.push(obj1);
+        }
+      });
+    }
+
+    if (x === 21) {
+      values.forEach((item) => {
+        if (item[x].trim().includes("Issued as Aggravated Level")) {
+          let obj = {};
+          obj[item[x].trim().split("\t")[0].split(":")[0]] = item[x]
+            .trim()
+            .split("\t")[0]
+            .split(":")[1]
+            .trim();
+          objectsArray.push(obj);
+        } else {
+        }
+      });
+    }
+
+    if (x === 22) {
+      values.forEach((item) => {
+        if (item[x].trim().includes("Certification Status")) {
+          let obj = {};
+          obj[item[x].trim().split("\t")[0]] = item[x].trim().split("\t")[1];
+          objectsArray.push(obj);
+        } else {
+        }
+      });
+    }
+
+    if (x === 23) {
+      values.forEach((item) => {
+        if (item[x].trim().includes("A Certificate of Correction must")) {
+        } else if (item[x].trim().includes("CERTIFICATE ACCEPTED")) {
+          let obj = {};
+          let obj1 = {};
+
+          obj[item[x].trim().split("\t")[0]] = item[x].trim().split("\t")[1];
+          obj1[item[x].trim().split("\t")[2]] = item[x].trim().split("\t")[3];
+
+          objectsArray.push(obj);
+          objectsArray.push(obj1);
+        } else {
+          let obj = {};
+          obj[item[x].trim().split("\t")[0]] = item[x].trim().split("\t")[1];
+          objectsArray.push(obj);
+        }
+      });
+    }
+
+    if (x === 24) {
+      values.forEach((item) => {
+        if (
+          item[x].trim().includes("OATH/ECB Hearing Information") ||
+          item[x].trim().includes("A Certificate of Correction must")
+        ) {
+        } else {
+          // console.log(item[x].trim().split("\t"));
+          if (item[x].trim().split("\t").length === 4) {
+            let obj = {};
+            let obj1 = {};
+
+            obj[item[x].trim().split("\t")[0]] = item[x].trim().split("\t")[1];
+            obj1[item[x].trim().split("\t")[2]] = item[x].trim().split("\t")[3];
+
+            objectsArray.push(obj);
+            objectsArray.push(obj1);
+          } else {
+            let obj = {};
+            obj[item[x].trim().split("\t")[0]] = item[x].trim().split("\t")[1];
+            objectsArray.push(obj);
+          }
+        }
+      });
+    }
+
+    if (x === 25) {
+      values.forEach((item) => {
+        if (
+          item[x].trim().includes("A Certificate of Correction must") ||
+          item[x].trim().includes("OATH/ECB Hearing Information")
+        ) {
+        } else {
+          if (item[x].trim().split("\t").length === 2) {
+            let obj = {};
+            obj[item[x].trim().split("\t")[0]] = item[x].trim().split("\t")[1];
+            objectsArray.push(obj);
+          } else {
+            let obj = {};
+            let obj1 = {};
+            obj[item[x].trim().split("\t")[0].split(/:(.+)/)[0]] = item[x]
+              .trim()
+              .split("\t")[0]
+              .split(/:(.+)/)[1]
+              .trim();
+            obj1[item[x].trim().split("\t")[2]] = item[x].trim().split("\t")[3];
+            objectsArray.push(obj);
+            objectsArray.push(obj1);
+          }
+        }
+      });
+    }
+
+    if (x === 26) {
+      values.forEach((item) => {
+        if (
+          item[x].trim().includes("A Certificate of Correction must") ||
+          item[x].trim().includes("OATH/ECB Hearing Information") ||
+          item[x].trim().includes("OATH/ECB Penalty Information")
+        ) {
+        } else {
+          let obj = {};
+          let obj1 = {};
+          obj[item[x].trim().split("\t")[0].split(/:(.+)/)[0]] = item[x]
+            .trim()
+            .split("\t")[0]
+            .split(/:(.+)/)[1]
+            .trim();
+          obj1[item[x].trim().split("\t")[2]] = item[x].trim().split("\t")[3];
+          objectsArray.push(obj);
+          objectsArray.push(obj1);
+        }
+      });
+    }
+
+    if (x === 27) {
+      values.forEach((item) => {
+        if (item[x].trim().split("\t").length === 4) {
+          let obj = {};
+          let obj1 = {};
+          obj[item[x].trim().split("\t")[0].split(/:(.+)/)[0]] = item[x]
+            .trim()
+            .split("\t")[0]
+            .split(/:(.+)/)[1]
+            .trim();
+          obj1[item[x].trim().split("\t")[2]] = item[x].trim().split("\t")[3];
+          objectsArray.push(obj);
+          objectsArray.push(obj1);
+        } else if (item[x].trim().split("\t").length === 2) {
+          let obj = {};
+          obj[item[x].trim().split("\t")[0]] = item[x].trim().split("\t")[1];
+          objectsArray.push(obj);
+        }
+      });
+    }
+
+    if (x === 28) {
+      values.forEach((item) => {
+        if (item[x].trim().includes("OATH/ECB Penalty Information")) {
+        } else if (item[x].trim().split("\t").length === 2) {
+          let obj = {};
+          obj[item[x].trim().split("\t")[0]] = item[x].trim().split("\t")[1];
+          objectsArray.push(obj);
+        } else {
+          if (item[x].trim().includes("Adjustments")) {
+            let obj = {};
+            let obj1 = {};
+            obj[item[x].trim().split("\t")[0]] = item[x]
+              .trim()
+              .split("\t")[1]
+              .trim();
+            obj1[item[x].trim().split("\t")[3]] = item[x].trim().split("\t")[4];
+            objectsArray.push(obj);
+            objectsArray.push(obj1);
+          } else {
+            let obj = {};
+            let obj1 = {};
+            obj[item[x].trim().split("\t")[0].split(/:(.+)/)[0]] = item[x]
+              .trim()
+              .split("\t")[0]
+              .split(/:(.+)/)[1]
+              .trim();
+            obj1[item[x].trim().split("\t")[2]] = item[x].trim().split("\t")[3];
+            objectsArray.push(obj);
+            objectsArray.push(obj1);
+          }
+        }
+      });
+    }
+
+    if (x === 29) {
+      values.forEach((item) => {
+        if (item[x].trim().includes("OATH/ECB Penalty Information")) {
+        } else if (item[x].trim().split("\t").length === 2) {
+          let obj = {};
+          obj[item[x].trim().split("\t")[0]] = item[x].trim().split("\t")[1];
+          objectsArray.push(obj);
+        } else {
+          let obj = {};
+          let obj1 = {};
+          obj[item[x].trim().split("\t")[0]] = item[x]
+            .trim()
+            .split("\t")[1]
+            .trim();
+          obj1[item[x].trim().split("\t")[3]] = item[x].trim().split("\t")[4];
+          objectsArray.push(obj);
+          objectsArray.push(obj1);
+        }
+      });
+    }
+
+    if (x === 30) {
+      values.forEach((item) => {
+        if (item[x]) {
+          if (item[x].trim().split("\t").length === 2) {
+            let obj = {};
+            obj[item[x].trim().split("\t")[0]] = item[x].trim().split("\t")[1];
+            objectsArray.push(obj);
+          } else {
+            let obj = {};
+            let obj1 = {};
+            obj[item[x].trim().split("\t")[0]] = item[x]
+              .trim()
+              .split("\t")[1]
+              .trim();
+            obj1[item[x].trim().split("\t")[3]] = item[x].trim().split("\t")[4];
+            objectsArray.push(obj);
+            objectsArray.push(obj1);
+          }
+        }
+      });
+    }
+
+    if (x === 31) {
+      values.forEach((item) => {
+        if (item[x]) {
+          if (item[x].trim().split("\t").length === 2) {
+            let obj = {};
+            obj[item[x].trim().split("\t")[0]] = item[x].trim().split("\t")[1];
+            objectsArray.push(obj);
+          } else {
+            let obj = {};
+            let obj1 = {};
+            obj[item[x].trim().split("\t")[0]] = item[x]
+              .trim()
+              .split("\t")[1]
+              .trim();
+            obj1[item[x].trim().split("\t")[3]] = item[x].trim().split("\t")[4];
+            objectsArray.push(obj);
+            objectsArray.push(obj1);
+          }
+        }
+      });
+    }
+
+    if (x === 32) {
+      values.forEach((item) => {
+        if (item[x]) {
+          let obj = {};
+          obj[item[x].trim().split("\t")[0]] = item[x].trim().split("\t")[1];
+          objectsArray.push(obj);
+        }
+      });
+    }
+
+    if (x === 32) {
+      values.forEach((item) => {
+        if (item[x]) {
+          let obj = {};
+          obj[item[x].trim().split("\t")[0]] = item[x].trim().split("\t")[1];
+          objectsArray.push(obj);
+        }
+      });
+    }
+    // end of for loop
+  }
+  console.log(objectsArray);
 });
