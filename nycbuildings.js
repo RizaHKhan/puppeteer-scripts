@@ -1,10 +1,6 @@
 const puppeteer = require("puppeteer");
 const fs = require("fs");
 
-const one = crawler(
-  "http://a810-bisweb.nyc.gov/bisweb/ECBQueryByNumberServlet?requestid=20&ecbin=38236472X"
-);
-
 const crawler = async (url) => {
   const browser = await puppeteer.launch({
     args: ["--no-sandbox"],
@@ -56,6 +52,10 @@ const crawler = async (url) => {
 };
 
 let objectsArray = [];
+
+const one = crawler(
+  "http://a810-bisweb.nyc.gov/bisweb/ECBQueryByNumberServlet?requestid=20&ecbin=38236472X"
+);
 
 Promise.all([one]).then((values) => {
   const one = values[0];
